@@ -80,12 +80,12 @@ app.get('/api/coin/:id', (req, res) => {
 
 function validateCoin(coin){
    const schema = {
-      name: Joi.string().min(3).required()
-      desc: Joi.string().min(5).required()
-      year: Joi.int().required()
-      available: Joi.boolean()
-      symbol: Joi.string().min(1).required()
-      picture(): Joi.String().required()
+      name: Joi.string().min(3).required(),
+      desc: Joi.string().min(5).required(),
+      year: Joi.int().required(),
+      available: Joi.boolean(),
+      symbol: Joi.string().min(1).required(),
+      picture: Joi.string().required()
    };
    return Joi.validate(coin, schema);
 }
