@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">International Coins App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="coin_name">Coin name</string>
+    <string name="coin_id">ID</string>
+    <string name="n_a_value">test_string</string>
+    <string name="search_string">Buscar</string>
+
+    <!-- Fragment string values -->
+    <string name="info_fragment_string">Acerca de...</string>
+    <string name="international_coins_app_string">International Coins App</string>
+    <string name="description_string">Esta aplicacion fue creada con el lenguaje \'Kotlin\', esta te permite obtener
+        informacion de diversas monedas de distintos paises alrededor del mundo!
+    </string>
+    <string name="searchbar_hint">Buscar moneda...</string>
+</resources>
