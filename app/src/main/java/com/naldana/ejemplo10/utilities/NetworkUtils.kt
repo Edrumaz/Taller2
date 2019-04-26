@@ -1,4 +1,4 @@
-package me.nelsoncastro.pokeapi.utilities
+package com.naldana.ejemplo10.utilities
 
 import android.net.Uri
 import android.util.Log
@@ -10,17 +10,17 @@ import java.util.*
 
 
 class NetworkUtils {
-    val POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2/"
-    val POKEMON_INFO = "pokemon"
+    val POKEMON_API_BASE_URL = "192.168.1.10:3000/api/"
+    val POKEMON_INFO = "coins"
     val POKEMON_TYPE = "type"
 
     private val TAG = NetworkUtils::class.java.simpleName
 
-    fun buildUrl(root: String, pokeID: String): URL {
+    fun buildUrl(root: String, coinID: String): URL {
         val builtUri = Uri.parse(POKEMON_API_BASE_URL)
             .buildUpon()
             .appendPath(root)
-            .appendPath(pokeID)
+            .appendPath(coinID)
             .build()
 
         val url = try {

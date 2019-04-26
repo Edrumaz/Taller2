@@ -36,7 +36,7 @@ app.post('/api/coins', (req, res) => {
    res.send(coin);
 });
 
-app.put('/api/coin/:id', (req, res) => {
+app.put('/api/coins/:id', (req, res) => {
    const coin = coins.find(c => c.id === parseInt(req.params.id));
    if (!coin){ // 404 Not found
       res.status(404).send('Moneda no encontrada.');
@@ -58,7 +58,7 @@ app.put('/api/coin/:id', (req, res) => {
   res.send(coin);
 });
 
-app.delete('/api/coin/:id', (req, res) => {
+app.delete('/api/coins/:id', (req, res) => {
    const coin = coins.find(c => c.id === parseInt(req.params.id));
    if (!coin) {
       res.status(404).send('Moneda no encontrada.');
@@ -72,7 +72,7 @@ app.delete('/api/coin/:id', (req, res) => {
 });
 
 
-app.get('/api/coin/:id', (req, res) => {
+app.get('/api/coins/:id', (req, res) => {
    const coin = coins.find(c => c.id === parseInt(req.params.id));
    if (!coin) res.status(404).send('Moneda no encontrada.');
    res.send(coin);

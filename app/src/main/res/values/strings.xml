@@ -18,4 +18,13 @@
         informacion de diversas monedas de distintos paises alrededor del mundo!
     </string>
     <string name="searchbar_hint">Buscar moneda...</string>
+    <string name="symbol_string">Simbolo :</string>
+    <string name="coin_symbol_string">$$</string>
+    <string name="coin_name_string">Coin_Name</string>
+    <string name="year_string">Año :</string>
+    <string name="coin_year_string">YYYY</string>
+    <string name="coin_available_string">Yes / No</string>
+    <string name="tv_description_string">Descripcion :</string>
+    <string name="coin_description_string">Dummy Data</string>
+    <string name="available_string">Disponible :</string>
 </resources>

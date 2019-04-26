@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewer_element_coin.*
-import me.nelsoncastro.pokeapi.utilities.NetworkUtils
+import com.naldana.ejemplo10.utilities.NetworkUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException

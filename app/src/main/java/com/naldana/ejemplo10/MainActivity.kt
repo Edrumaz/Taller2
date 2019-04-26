@@ -22,7 +22,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import me.nelsoncastro.pokeapi.utilities.NetworkUtils
+import com.naldana.ejemplo10.utilities.NetworkUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -82,10 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          */
         infoFragment = InfoFragment.newInstance()
 
-        val recycler = findViewById(R.id.rv_coin) as RecyclerView
-
-        recycler.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-
         val coins = ArrayList<Coin>()
 
         coins.add(Coin(1, "Colon", "Moneda", "1900", "True", "colon", "test"))
@@ -95,17 +91,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         coins.add(Coin(5, "Bolivar", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(6, "Soles", "Moneda", "1900", "True", "colon", "test"))
 
-        //val adapter = CoinAdapter(coins)
-
-        //recycler.adapter = adapter
-        initRecycler(coins)
+        FetchCoinTask().execute("")
+        searchCoin()
+        clearSearchCoin()
     }
 
     // Recycler View --
 
     fun initRecycler(coin: MutableList<Coin>){
         viewManager = GridLayoutManager(this,3)
-        viewAdapter = CoinAdapter(coin, {pokemonItem: Coin -> coinItemClicked(pokemonItem)})
+        viewAdapter = CoinAdapter(coin, {coinItem: Coin -> CoinItemClicked(coinItem)})
 
         rv_coin.apply {
             setHasFixedSize(true)
@@ -114,17 +109,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun coinItemClicked(item: Coin){
+    private fun CoinItemClicked(item: Coin){
         startActivity(Intent(this, CoinViewer::class.java).putExtra("CLAVIER", item.picture))
     }
 
 
     // Search Bar functionality
 
-    private fun searchPokemon(){
+    private fun searchCoin(){
         searchbarbutton.setOnClickListener {
             if (!searchbar.text.isEmpty()){
-                //QueryCoinTask().execute("${searchbar.text}")
+                QueryCoinTask().execute("${searchbar.text}")
             }
         }
     }
@@ -132,24 +127,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun clearSearchCoin(){
         searchbar_clear_button.setOnClickListener {
             searchbar.setText("")
-            //FetchPokemonTask().execute("")
+            FetchCoinTask().execute("")
         }
     }
 
     // Background Processes
 
-    /*
-    private inner class FetchPokemonTask : AsyncTask<String, Void, String>() {
+
+    private inner class FetchCoinTask : AsyncTask<String, Void, String>() {
 
         override fun doInBackground(vararg query: String): String {
 
             if (query.isNullOrEmpty()) return ""
 
             val ID = query[0]
-            val pokeAPI = NetworkUtils().buildUrl("pokemon",ID)
+            val coinAPI = NetworkUtils().buildUrl("coins",ID)
 
             return try {
-                NetworkUtils().getResponseFromHttpUrl(pokeAPI)
+                NetworkUtils().getResponseFromHttpUrl(coinAPI)
             } catch (e: IOException) {
                 e.printStackTrace()
                 ""
@@ -157,9 +152,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
-        override fun onPostExecute(pokemonInfo: String) {
-            val pokemon = if (!pokemonInfo.isEmpty()) {
-                val root = JSONObject(pokemonInfo)
+        override fun onPostExecute(coinInfo: String) {
+            val coin = if (!coinInfo.isEmpty()) {
+                val root = JSONObject(coinInfo)
                 val results = root.getJSONArray("results")
                 MutableList(20) { i ->
                     val result = JSONObject(results[i].toString())
@@ -176,7 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     Coin(i, R.string.n_a_value.toString(), R.string.n_a_value.toString(), R.string.n_a_value.toString(),R.string.n_a_value.toString(), R.string.n_a_value.toString(), R.string.n_a_value.toString())
                 }
             }
-            initRecycler(pokemon)
+            initRecycler(coin)
         }
     }
 
@@ -187,10 +182,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (query.isNullOrEmpty()) return ""
 
             val ID = query[0]
-            val pokeAPI = NetworkUtils().buildUrl("type", ID)
+            val coinAPI = NetworkUtils().buildUrl("type", ID)
 
             return try {
-                NetworkUtils().getResponseFromHttpUrl(pokeAPI)
+                NetworkUtils().getResponseFromHttpUrl(coinAPI)
             } catch (e: IOException) {
                 e.printStackTrace()
                 ""
@@ -201,10 +196,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun onPostExecute(coinInfo: String) {
             val coin = if (!coinInfo.isEmpty()) {
                 val root = JSONObject(coinInfo)
-                val results = root.getJSONArray("pokemon")
+                val results = root.getJSONArray("coins")
                 MutableList(20) { i ->
                     val resulty = JSONObject(results[i].toString())
-                    val result = JSONObject(resulty.getString("pokemon"))
+                    val result = JSONObject(resulty.getString("coins"))
 
                     Coin(
                         i,
@@ -231,7 +226,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             initRecycler(coin)
         }
-    }*/
+    }
 
     // TODO (16) Para poder tener un comportamiento Predecible
     // TODO (16.1) Cuando se presione el boton back y el menu este abierto cerralo
