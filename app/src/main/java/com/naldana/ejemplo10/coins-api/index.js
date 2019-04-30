@@ -6,10 +6,10 @@ app.use(express.json());
 
 //Dummy Data
 const coins = [
-   { id: 1, name: 'Dolar', desc: 'Moneda Estadounidense', year: 1900, available: true, symbol: '$', picture: 'test.jpg'},
-   { id: 2, name: 'Euro', desc: 'Moneda Europea', year: 1900, available: true, symbol: '€', picture: 'test.jpg'},
-   { id: 3, name: 'Yen', desc: 'Moneda de Japon', year: 1900, available: true, symbol: '¥', picture: 'test.jpg'},
-   { id: 4, name: 'Colon', desc: 'Moneda Salvadoreña', year: 1900, available: false, symbol: '₡', picture: 'test.jpg'}
+   { id: 1, name: 'Dolar', desc: 'Moneda Estadounidense', year: "1900", available: true, symbol: '$', picture: 'test.jpg'},
+   { id: 2, name: 'Euro', desc: 'Moneda Europea', year: "1900", available: true, symbol: '€', picture: 'test.jpg'},
+   { id: 3, name: 'Yen', desc: 'Moneda de Japon', year: "1900", available: true, symbol: '¥', picture: 'test.jpg'},
+   { id: 4, name: 'Colon', desc: 'Moneda Salvadoreña', year: "1900", available: false, symbol: '₡', picture: 'test.jpg'}
 ];
 
 // Routes handler

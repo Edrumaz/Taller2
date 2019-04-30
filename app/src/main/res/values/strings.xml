@@ -27,4 +27,5 @@
     <string name="tv_description_string">Descripcion :</string>
     <string name="coin_description_string">Dummy Data</string>
     <string name="available_string">Disponible :</string>
+    <string name="tv_symbol_string">Simbolo :</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.naldana.ejemplo10
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -15,28 +16,23 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
+import android.view.View
+import com.naldana.ejemplo10.adapters.CoinAdapter
 import com.naldana.ejemplo10.fragments.InfoFragment
 import com.naldana.ejemplo10.models.Coin
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import com.naldana.ejemplo10.utilities.NetworkUtils
-import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.net.MalformedURLException
-import java.net.URL
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, InfoFragment.OnFragmentInteractionListener {
-
-    lateinit var infoFragment: InfoFragment;
 
     var twoPane =  false
     private lateinit var viewAdapter: CoinAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-
+    private lateinit var infoFragment: InfoFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,31 +77,50 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          * Y la obtencion de datos para el API de Monedas
          */
         infoFragment = InfoFragment.newInstance()
+        generateDummyData()
+        FetchCoinTask().execute("")
+        searchCoin()
+        clearSearchCoin()
 
+    }
+
+    private fun generateDummyData(){
         val coins = ArrayList<Coin>()
-
         coins.add(Coin(1, "Colon", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(2, "Yen", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(3, "Euro", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(4, "Libra", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(5, "Bolivar", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(6, "Soles", "Moneda", "1900", "True", "colon", "test"))
-
-        FetchCoinTask().execute("")
-        searchCoin()
-        clearSearchCoin()
     }
 
     // Recycler View --
 
     fun initRecycler(coin: MutableList<Coin>){
-        viewManager = GridLayoutManager(this,3)
-        viewAdapter = CoinAdapter(coin, {coinItem: Coin -> CoinItemClicked(coinItem)})
 
-        rv_coin.apply {
+    }
+
+    fun initRecyclerView(orientation:Int, container: View){
+        val linearLayoutManager = LinearLayoutManager(this.context)
+
+        if(orientation == Configuration.ORIENTATION_PORTRAIT){
+            viewManager = GridLayoutManager(this,3)
+            viewAdapter = CoinAdapter(coin, { coinItem: Coin -> CoinItemClicked(coinItem) })
+
+            rv_coin.apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
+            }
+        }
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+            moviesAdapter = MovieSimpleListAdapter(movies, {movie:Movie->listenerTool?.manageLandscapeItemClick(movie)})
+            container.movie_list_rv.adapter = moviesAdapter as MovieSimpleListAdapter
+        }
+
+        container.movie_list_rv.apply {
             setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+            layoutManager = linearLayoutManager
         }
     }
 
@@ -133,7 +148,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // Background Processes
 
-
     private inner class FetchCoinTask : AsyncTask<String, Void, String>() {
 
         override fun doInBackground(vararg query: String): String {
@@ -141,7 +155,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (query.isNullOrEmpty()) return ""
 
             val ID = query[0]
-            val coinAPI = NetworkUtils().buildUrl("coins",ID)
+            val coinAPI = NetworkUtils().buildUrl("/api/coins",ID)
 
             return try {
                 NetworkUtils().getResponseFromHttpUrl(coinAPI)
@@ -149,7 +163,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 e.printStackTrace()
                 ""
             }
-
         }
 
         override fun onPostExecute(coinInfo: String) {
@@ -183,14 +196,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val ID = query[0]
             val coinAPI = NetworkUtils().buildUrl("type", ID)
-
             return try {
                 NetworkUtils().getResponseFromHttpUrl(coinAPI)
             } catch (e: IOException) {
                 e.printStackTrace()
                 ""
             }
-
         }
 
         override fun onPostExecute(coinInfo: String) {

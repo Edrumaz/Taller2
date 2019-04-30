@@ -1,16 +1,17 @@
-package com.naldana.ejemplo10
+package com.naldana.ejemplo10.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.coin_cardview.view.*
+import com.naldana.ejemplo10.R
 import com.naldana.ejemplo10.models.Coin
+import kotlinx.android.synthetic.main.simple_coin_cardview.view.*
 
-class CoinAdapter(val items: List<Coin>, val clickListener: (Coin) -> Unit):RecyclerView.Adapter<CoinAdapter.ViewHolder>() {
+class SimpleCoinAdapter (val items: List<Coin>, val clickListener: (Coin) -> Unit):RecyclerView.Adapter<SimpleCoinAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.coin_cardview, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.simple_coin_cardview, parent, false)
         return ViewHolder(view)
     }
 
@@ -21,8 +22,8 @@ class CoinAdapter(val items: List<Coin>, val clickListener: (Coin) -> Unit):Recy
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(item: Coin, clickListener: (Coin) -> Unit) = with(itemView) {
-            tv_coin_id.text = item.id.toString()
-            tv_coin_name.text = item.name
+            simple_coin_symbol.text = item.symbol
+            symple_coin_available.text = item.available
             this.setOnClickListener { clickListener(item) }
         }
     }
