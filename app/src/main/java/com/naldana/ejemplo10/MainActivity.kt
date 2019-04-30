@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var viewAdapter: CoinAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var infoFragment: InfoFragment
+    val coins = ArrayList<Coin>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // TODO (12) Con el Listener Creado se asigna al  DrawerLayout
         drawer_layout.addDrawerListener(toggle)
 
-
         // TODO(13) Se sincroniza el estado del menu con el LISTENER
         toggle.syncState()
 
@@ -78,14 +78,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          */
         infoFragment = InfoFragment.newInstance()
         generateDummyData()
-        FetchCoinTask().execute("")
-        searchCoin()
-        clearSearchCoin()
+        initRecycler(coins)
+        //FetchCoinTask().execute("")
+        //searchCoin()
+        //clearSearchCoin()
 
     }
 
     private fun generateDummyData(){
-        val coins = ArrayList<Coin>()
         coins.add(Coin(1, "Colon", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(2, "Yen", "Moneda", "1900", "True", "colon", "test"))
         coins.add(Coin(3, "Euro", "Moneda", "1900", "True", "colon", "test"))
@@ -97,21 +97,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // Recycler View --
 
     fun initRecycler(coin: MutableList<Coin>){
+        viewManager = GridLayoutManager(this,3)
+        viewAdapter = CoinAdapter(coin, { coinItem: Coin -> CoinItemClicked(coinItem) })
 
+        rv_coin.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
     }
 
-    fun initRecyclerView(orientation:Int, container: View){
+   /* fun initRecyclerView(orientation:Int, container: View){
         val linearLayoutManager = LinearLayoutManager(this.context)
 
         if(orientation == Configuration.ORIENTATION_PORTRAIT){
-            viewManager = GridLayoutManager(this,3)
-            viewAdapter = CoinAdapter(coin, { coinItem: Coin -> CoinItemClicked(coinItem) })
 
-            rv_coin.apply {
-                setHasFixedSize(true)
-                layoutManager = viewManager
-                adapter = viewAdapter
-            }
         }
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             moviesAdapter = MovieSimpleListAdapter(movies, {movie:Movie->listenerTool?.manageLandscapeItemClick(movie)})
@@ -122,10 +122,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setHasFixedSize(true)
             layoutManager = linearLayoutManager
         }
-    }
+    }*/
 
     private fun CoinItemClicked(item: Coin){
-        startActivity(Intent(this, CoinViewer::class.java).putExtra("CLAVIER", item.picture))
+        startActivity(Intent(this, CoinViewer::class.java).putExtra("COIN_NAME", item.name))
+        startActivity(Intent(this, CoinViewer::class.java).putExtra("COIN_DESC", item.desc))
+        startActivity(Intent(this, CoinViewer::class.java).putExtra("COIN_SYMBOL", item.symbol))
+        startActivity(Intent(this, CoinViewer::class.java).putExtra("COIN_YEAR", item.year))
+        startActivity(Intent(this, CoinViewer::class.java).putExtra("COIN_IMG", item.img))
     }
 
 

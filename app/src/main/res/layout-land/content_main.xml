@@ -12,17 +12,55 @@
         tools:context=".MainActivity">
 
     <!-- TODO (7.3.1) Note que se define  el recyclerview  y el panel para poner un fragmento-->
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="@dimen/list_width"
-            android:layout_height="wrap_content"
-            android:text="Hello World!" />
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                    android:id="@+id/searchbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:hint="@string/searchbar_hint" />
+
+            <ImageView
+                    android:id="@+id/searchbar_clear_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_outline_cancel" />
+
+            <Button
+                    android:id="@+id/searchbarbutton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/search_string" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_coin"
+                android:layout_width="@dimen/list_width"
+                android:layout_height="wrap_content"
+                android:text="Hello World!" />
+
+
+    </LinearLayout>
+
+
+
 
     <FrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"></FrameLayout>
+        android:background="@color/colorPrimaryDark"></FrameLayout>
 
 </LinearLayout>

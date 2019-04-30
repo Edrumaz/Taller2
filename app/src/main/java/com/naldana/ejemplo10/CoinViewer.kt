@@ -19,7 +19,12 @@ class CoinViewer : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewer_element_coin)
 
-        val uri:String = this.intent.extras.getString("CLAVIER")
+        val coin_name:String = this.intent.extras.getString("COIN_NAME")
+        val coin_desc:String = this.intent.extras.getString("COIN_DESC")
+        val coin_year:String = this.intent.extras.getString("COIN_YEAR")
+        val coin_symbol:String = this.intent.extras.getString("COIN_SYMBOL")
+        val coin_img:String = this.intent.extras.getString("COIN_SYMBOL")
+
         setSupportActionBar(toolbarviewer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)

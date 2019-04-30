@@ -7,4 +7,4 @@ data class Coin(
     val year: String,
     val available: String,
     val symbol: String,
-    val picture: String)
+    val img: String)
